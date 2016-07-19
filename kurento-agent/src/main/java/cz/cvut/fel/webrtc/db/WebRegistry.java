@@ -1,0 +1,115 @@
+/*
+ * (C) Copyright 2014 Kurento (http://kurento.org/)
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser General Public License
+ * (LGPL) version 2.1 which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/lgpl-2.1.html
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ */
+package cz.cvut.fel.webrtc.db;
+
+import cz.cvut.fel.webrtc.resources.WebUser;
+import org.springframework.web.socket.WebSocketSession;
+
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Map of users registered in the system. This class has a concurrent hash map
+ * to store users, using its name as key in the map.
+ * 
+ * @author Boni Garcia (bgarcia@gsyc.es)
+ * @author Micael Gallego (micael.gallego@gmail.com)
+ * @author Ivan Gracia (izanmail@gmail.com)
+ * @since 4.3.1
+ */
+public class WebRegistry {
+
+	private final ConcurrentHashMap<String, WebUser> users = new ConcurrentHashMap<>();
+
+	/**
+	 * Constructor of WebRegistry
+	 */
+	/*public WebRegistry(ConcurrentHashMap<String, WebUser> users) {
+		this.users = users;
+	}*/
+
+	/**
+	 * Add a WebUser in the ConncurrentHashMap. The key is the Id of the user.
+	 * 
+	 * @param user
+	 *            - Instance of WebUser
+	 */
+	public void register(WebUser user) {
+		users.put(user.getSession().getId(), user);
+	}
+
+	/**
+	 * Get a user from the ConcurrentHashMap by his WebSocketSession
+	 * 
+	 * @param session
+	 *            - WebSocketSession associated to the user
+	 * 
+	 * @return - an instance of WebUser
+	 */
+	public WebUser getBySession(WebSocketSession session) {
+		return users.get(session.getId());
+	}
+
+	/**
+	 * Remove a user from the ConcurrentHashMap by his WebSocketSession
+	 * 
+	 * @param session
+	 *            - WebSocketSession associated to the user
+	 * 
+	 * @return - the removed WebUser
+	 */
+	public WebUser removeBySession(WebSocketSession session) {
+		final WebUser user = getBySession(session);
+
+		if (user != null) {
+			users.remove(session.getId());
+		}
+
+		return user;
+	}
+
+	/**
+	 * Get the ConcurrentHashMap
+	 * 
+	 * @return - ConcurrentHashMap
+	 */
+	public Collection<WebUser> getAll() {
+		return users.values();
+}
+	
+	/**
+	 * Get a user from the ConcurrentHashMap by his String Key (UserId)
+	 * 
+	 * @param keyID
+	 *            - String corresponding to the UserId
+	 * 
+	 * @return - a WebUser
+	 */
+	public WebUser getUser(String keyID) {
+		return users.get(keyID);
+	}
+
+	/**
+	 * Allow to get the a concurrent hash map to store users
+	 * 
+	 * @return - users ConcurrentHashMap
+	 */
+	public ConcurrentHashMap<String, WebUser> getUsers() {
+		return users;
+	}
+
+
+
+}

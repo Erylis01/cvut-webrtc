@@ -1,0 +1,67 @@
+<div flex-container="row">
+	<div flex-item="3" flex-item-order="1"></div>
+	<div flex-item="6" flex-item-order="2" class="p++">
+
+		<span class="fs-headline display-block text-center tc-blue-grey-500">WebRTC Video Conference</span>
+
+		<div class="text-center fs-body-1 card p+ mt++ mb+ bgc-blue-grey-100 tc-grey-800" ng-show="isIncompatible()">
+			<p>{{ 'WARNING_BROWSER' | translate }}</p>
+		</div>
+
+		<form ng-submit="join(participant)">
+			<!-- Name -->
+			<lx-text-field label="{{ 'NAME' | translate }}" error="!checked.name">
+				<input type="name" ng-model="participant.name">
+			</lx-text-field>
+			<span class="text-field-error" ng-if="!checked.name">{{ 'WARNING_NAME' | translate }}</span>
+
+			<!-- Room -->
+			<lx-text-field label="{{ 'ROOM' | translate }}" error="!checked.room">
+				<input type="room" ng-model="participant.room">
+			</lx-text-field>
+			<span class="text-field-error" ng-if="!checked.room">{{ 'WARNING_ROOM' | translate }}</span>
+
+			<!-- Join -->
+			<div class="pt+++ pb" flex-container="row">
+				<button type="submit" class="width--100 btn btn--m btn--blue-grey btn--raised" flex-item="12" lx-ripple>{{ 'CONFIRMATION' | translate }}</button>
+			</div>
+            
+            <!-- Language -->
+            <div ng-controller="TranslateController" class="pt+++ pb" flex-container="row">
+				<button type="button" class="width--100 btn btn--m btn--blue-grey btn--raised" flex-item="5" lx-ripple ng-click="changeLanguage('fr')" translate="BUTTON_TEXT_FR"></button>
+                <span flex-item="2" lx-ripple></span>
+                <button type="button" class="width--100 btn btn--m btn--blue-grey btn--raised" flex-item="5" lx-ripple ng-click="changeLanguage('en')" translate="BUTTON_TEXT_EN"></button>
+			</div>
+            
+            <!-- Setting selector -->
+			<div class="text-center cursor-pointer tc-grey-500 pt pb fs-caption" ng-click="settings = 'shown'" text-center ng-hide="settings == 'shown'">
+				<span class="tc-grey-400 pr">&#9660;</span>
+				<span>{{ 'SHOW_SETTINGS' | translate }}</span>
+			</div>
+			<div class="text-center cursor-pointer tc-grey-700 pt pb fs-caption" ng-click="settings = 'hidden'" text-center ng-show="settings == 'shown'">
+				<span class="pr">&#9650;</span>
+				<span>{{ 'HIDE_SETTINGS' | translate }}</span>
+			</div>
+
+			<!-- Advanced settings -->
+			<div class="radio-group fs-caption tc-grey-700 pl++" ng-show="settings == 'shown'">
+				<div class="radio-button" checked>
+					<input type="radio" id="radio1" name="radio1" value="normal" class="radio-button__input" ng-model="participant.compositeOptions">
+					<label for="radio1" class="radio-button__label">Webcam + microphone</label>
+				</div>
+
+				<div class="radio-button">
+					<input type="radio" id="radio2" name="radio1" value="audioOnly" class="radio-button__input" ng-model="participant.compositeOptions">
+					<label for="radio2" class="radio-button__label">{{ 'MICRO_ONLY' | translate }}</label>
+				</div>
+
+				<div class="radio-button">
+					<input type="radio" id="radio3" name="radio1" value="watchOnly" class="radio-button__input" ng-model="participant.compositeOptions">
+					<label for="radio3" class="radio-button__label">{{ 'END_USER_MEDIA' | translate }}</label>
+				</div>
+			</div>
+		</form>
+
+	</div>
+	<div flex-item="3" flex-item-order="3"></div>
+</div>
