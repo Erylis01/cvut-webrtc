@@ -5,8 +5,8 @@ RUN apt-get install -y nodejs npm git
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install bower -g
 RUN npm install http-server -g
-RUN echo "dontusecache" && git clone -b master "https://github.com/Erylis01/webrtc"
-WORKDIR "/webrtc/angular-webpage"
+RUN echo "dontusecache" && git clone -b master "https://github.com/Erylis01/cvut-webrtc.git"
+WORKDIR "/cvut-webrtc/angular-webpage"
 RUN echo "#!/bin/bash" > start.sh
 RUN echo "git pull" >> start.sh
 RUN echo "bower install --allow-root" >> start.sh
