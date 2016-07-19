@@ -14,7 +14,7 @@ services:
   container_name: kurento-agent
   network_mode: "host"
   volumes:
-   - ./conf/application.yml:/webrtc/kurento-agent/config/application.yml
+   - ./conf/application.yml:/cvut-webrtc/kurento-agent/config/application.yml
   volumes_from:
    - kms6
  upload-speed-tester:
@@ -29,5 +29,5 @@ services:
   container_name: angular-webpage
   volumes:
    - ./conf:/conf/
-   - /root/record:/webrtc/angular-webpage/record
+   - /root/record:/cvut-webrtc/angular-webpage/record
 
